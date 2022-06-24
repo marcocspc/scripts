@@ -1,0 +1,9 @@
+[Unit]
+Description=Servico para inicializar o watchdog da VPN em modo loop (requer o script wg-watchdog-looped.service)
+Requires=wg-quick@SUA_VPN.service
+
+[Service]
+ExecStart=/usr/sbin/wg-watchdog-looped.sh
+
+[Install]
+WantedBy=multi-user.target
