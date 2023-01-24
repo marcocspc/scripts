@@ -23,8 +23,8 @@ case $@ in
         "stop" )
 			sudo systemctl stop wireguard_watchdog wg-quick@$VPNINTERFACE
 			ff_set.sh network.proxy.type 0
-			killall firefox 
-            nohup firefox > /dev/null &
+			$FIREFOX_STOP
+			nohup $FIREFOX_START > /dev/null &
             ;;
         "restart" )
 			sudo systemctl restart wireguard_watchdog wg-quick@$VPNINTERFACE
