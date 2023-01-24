@@ -6,14 +6,19 @@
 VPNINTERFACE=""
 SSHTUNNELUSER=""
 SSHTUNNELHOST=""
+FIREFOX_START="firefox"
+FIREFOX_STOP="killall firefox"
+## Flatpak version:
+# FIREFOX_START="flatpak run org.mozilla.firefox"
+# FIREFOX_STOP="flatpak kill org.mozilla.firefox"
 
 case $@ in
         "start" )
 			sudo systemctl start wireguard_watchdog wg-quick@$VPNINTERFACE
 			ssh -D 127.0.0.1:8888 -N -f $SSHTUNNELUSER@$SSHTUNNELHOST
 			ff_set.sh network.proxy.type 1
-			killall firefox 
-            nohup firefox > /dev/null &
+			$FIREFOX_STOP
+			nohup $FIREFOX_START > /dev/null &
             ;;
         "stop" )
 			sudo systemctl stop wireguard_watchdog wg-quick@$VPNINTERFACE
@@ -25,8 +30,7 @@ case $@ in
 			sudo systemctl restart wireguard_watchdog wg-quick@$VPNINTERFACE
 			ssh -D 127.0.0.1:8888 -N -f $SSHTUNNELUSER@$SSHTUNNELHOST
 			ff_set.sh network.proxy.type 1
-			killall firefox 
-            nohup firefox > /dev/null &
+			$FIREFOX_STOP
+			nohup $FIREFOX_START > /dev/null &
             ;;
 esac
-
